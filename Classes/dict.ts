@@ -12,6 +12,9 @@ class Dict {
       this.words[word.term] = word.def;
     }
   }
+  def(term: string) {
+    return this.words[term];
+  }
 }
 
 class Word {
@@ -22,3 +25,4 @@ const sushi = new Word("sushi", "oisii");
 
 const dict = new Dict();
 dict.add(sushi);
+dict.def("sushi");
