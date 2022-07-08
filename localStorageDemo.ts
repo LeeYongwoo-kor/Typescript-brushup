@@ -35,48 +35,72 @@ console.log(myLocalStorage.getItem("ItemKey2"));
 myLocalStorage.clear();
 console.log(myLocalStorage.getItem("ItemKey1"));
 
-interface IPosition {
-  coords: {
-    latitude?: number;
-    longitude?: number;
-    accuracy?: number;
-  };
-  timeStamp?: string;
+interface Coordinates {
+  latitude?: number;
+  longitude?: number;
+  accuracy?: number;
 }
 
-interface IError {
-  errorCode: string;
-  errorMessage: string;
+interface Position {
+  coords?: Coordinates;
+  timeStamp?: number;
 }
 
-interface MyGeoLocationOptions {
+interface PositionCallback {
+  (position: Position): void;
+}
+
+interface PositionError {
+  errorCode?: number;
+  errorMessage?: string;
+}
+
+interface PositionErrorCallback {
+  (positionError: PositionError): void;
+}
+
+interface PositionOptions {
   enableHighAccuracy?: boolean;
-  timeout?: number;
   maximumAge?: number;
+  timeout?: number;
 }
-
-type GeoLocationParam = {
-  (
-    successFn: (pos: IPosition) => IPosition,
-    errorFn?: (err: IError) => IError,
-    optional?: (option: MyGeoLocationOptions) => void
-  ): void;
-};
 
 interface IGeoLocation {
-  getCurrentPosition(param: GeoLocationParam): void;
-  watchCurrentPosition(param: GeoLocationParam): void;
-  clearWatch(id: string): void;
+  clearWatch(watchId: number): void;
+  getCurrentPosition(
+    success: PositionCallback,
+    error?: PositionErrorCallback | null,
+    options?: PositionOptions
+  ): void;
+  watchPosition(
+    success: PositionCallback,
+    error?: PositionErrorCallback | null,
+    options?: PositionOptions
+  ): number;
 }
-
 class GeoLocation implements IGeoLocation {
-  getCurrentPosition(fn: GeoLocationParam): void {
-    return {};
+  clearWatch(watchId: number): void {}
+  getCurrentPosition(
+    success: PositionCallback,
+    error?: PositionErrorCallback | null | undefined,
+    options?: PositionOptions | undefined
+  ): void {
+    success((pos: Position) => {
+      pos = {
+        coords: {
+          accuracy: 100,
+          latitude: 35.2505,
+          longitude: 33.5505,
+        },
+        timeStamp: 50000,
+      };
+    });
   }
-  watchCurrentPosition(fn: GeoLocationParam): void {
-    throw new Error("Method not implemented.");
-  }
-  clearWatch(id: string): void {
+  watchPosition(
+    success: PositionCallback,
+    error?: PositionErrorCallback | null | undefined,
+    options?: PositionOptions | undefined
+  ): number {
     throw new Error("Method not implemented.");
   }
 }
