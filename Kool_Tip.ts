@@ -25,3 +25,21 @@ const PRICE_MAP2: { [fruit in Fruit2]: number } = {
 function getDiscountedPrice(fruit: Fruit, discount: number) {
   return PRICE_MAP2[fruit] - discount;
 }
+
+// 3. Base type rather than Union
+interface WeekdaySchedule {
+  day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
+  wake: Time;
+  startWork: Time;
+  endWork: Time;
+  sleep: Time;
+}
+
+interface WeekendSchedule {
+  day: "Saturday" | "Sunday";
+  wake: Time;
+  familyMeal: Time;
+  sleep: Time;
+}
+
+declare function printSchedule(schedule: WeekdaySchedule | WeekendSchedule);
