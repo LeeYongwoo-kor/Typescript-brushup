@@ -1,3 +1,4 @@
+// https://codepen.io/pen/ 에서 test가능
 // 1. Union Type rather than Enum
 const enum Fruit {
   Apple,
@@ -29,17 +30,56 @@ function getDiscountedPrice(fruit: Fruit, discount: number) {
 // 3. Base type rather than Union
 interface WeekdaySchedule {
   day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
-  wake: Time;
-  startWork: Time;
-  endWork: Time;
-  sleep: Time;
+  wake: Date;
+  startWork: Date;
+  endWork: Date;
+  sleep: Date;
 }
 
 interface WeekendSchedule {
   day: "Saturday" | "Sunday";
-  wake: Time;
-  familyMeal: Time;
-  sleep: Time;
+  wake: Date;
+  familyMeal: Date;
+  sleep: Date;
 }
 
 declare function printSchedule(schedule: WeekdaySchedule | WeekendSchedule);
+// ->
+interface Schedule {
+  day:
+    | "Monday"
+    | "Tuesday"
+    | "Wednesday"
+    | "Thursday"
+    | "Friday"
+    | "Saturday"
+    | "Sunday";
+  wake: Date;
+  sleep: Date;
+}
+
+interface WeekdaySchedule extends Schedule {
+  day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
+  startWork: Date;
+  endWork: Date;
+}
+
+interface WeekendSchedule extends Schedule {
+  day: "Saturday" | "Sunday";
+  familyMeal: Date;
+}
+
+declare function printSchedule(schedule: Schedule);
+
+// 4. Type Guard
+function assert(value: any, errorMsg: string): asserts value {
+  if (!value) throw new Error(errorMsg);
+}
+
+function toString(value?: number) {
+  assert(value !== undefined, "value is not always undefined");
+  return value.toFixed(2);
+}
+
+console.log(toString(30.3563));
+console.log(toString());
