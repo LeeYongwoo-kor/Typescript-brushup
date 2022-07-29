@@ -78,6 +78,7 @@ interface IGeoLocation {
     options?: PositionOptions
   ): number;
 }
+
 class GeoLocation implements IGeoLocation {
   clearWatch(watchId: number): void {}
   getCurrentPosition(
@@ -85,7 +86,18 @@ class GeoLocation implements IGeoLocation {
     error?: PositionErrorCallback | null | undefined,
     options?: PositionOptions | undefined
   ): void {
-    success((pos: Position) => {
+    success((pos) => {
+      console.log("Your current position is:");
+      if (pos.coords?.latitude) {
+        console.log(`Latitude : ${pos.coords?.latitude}`);
+      }
+      if (pos.coords?.longitude) {
+        console.log(`Longitude : ${pos.coords?.longitude}`);
+      }
+      if (pos.coords?.accuracy) {
+        console.log(`More or less ${pos.coords?.accuracy} meters.`);
+      }
+
       pos = {
         coords: {
           accuracy: 100,
