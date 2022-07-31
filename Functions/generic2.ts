@@ -45,3 +45,19 @@ function merge2<A, B>(a: A, b: B): A & B {
     ...b,
   };
 }
+
+interface Items<T> {
+  list: T[];
+}
+
+const items: Items<string> = {
+  list: ["a", "b", "c"],
+};
+
+function wrap<T>(param: T) {
+  return {
+    param,
+  };
+}
+
+const wrapped = wrap(10);
